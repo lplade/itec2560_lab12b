@@ -4,9 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var MongoClient = require("mongodb").MongoClient;
+var ObjectID = require("mongodb").ObjectID;
+const assert = require("assert");
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var index = require('./routes/index');
+var tasks = require('./routes/tasks');
+var about = require('./routes/about');
 
 var app = express();
 
@@ -18,43 +22,59 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+//DB connection string.
+var url = "mongodb://localhost:27017/todo";
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+MongoClient.connect(url, function (err, db) {
+	if (err) {
+		console.log("Error connecting to Mongo server: ", err);
+		assert(!err); //Crash application if error encountered
+	}
+	console.log("Established database connection ");
 
-// error handlers
+	//app.use('/', routes);
+	//app.use('/users', users);
+	app.use('/', index);
+	app.use('/about', about);
+	app.use('/tasks', tasks);
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
+	// catch 404 and forward to error handler
+	app.use(function (req, res, next) {
+		var err = new Error('Not Found');
+		err.status = 404;
+		next(err);
+	});
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
+	// error handlers
+
+	// development error handler
+	// will print stacktrace
+	if (app.get('env') === 'development') {
+		app.use(function (err, req, res, next) {
+			res.status(err.status || 500);
+			res.render('error', {
+				message: err.message,
+				error: err
+			});
+		});
+	}
+
+	// production error handler
+	// no stacktraces leaked to user
+	app.use(function (err, req, res, next) {
+		res.status(err.status || 500);
+		res.render('error', {
+			message: err.message,
+			error: {}
+		});
+	});
+
+
+}); //End of MongoDB callback
 
 
 module.exports = app;
