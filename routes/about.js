@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-/* home page. Redirect to /tasks listing. */
+/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('/tasks');
+	res.render('about');
 });
 
 module.exports = router;

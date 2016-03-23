@@ -36,6 +36,14 @@ MongoClient.connect(url, function (err, db) {
 	}
 	console.log("Established database connection ");
 
+	//Export the DB object to all middlewares
+	//...
+	app.use(function(req, res, next) {
+		req.db = {};
+		req.db.tasks = db.collection('tasks');
+		next(); //Need to say next() here or this is the end of request handling for the route.
+	});
+
 	//app.use('/', routes);
 	//app.use('/users', users);
 	app.use('/', index);
