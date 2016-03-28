@@ -35,7 +35,7 @@ MongoClient.connect(url, function (err, db) {
 		assert(!err); //Crash application if error encountered
 	}
 	console.log("Established database connection ");
-
+	
 	//Export the DB object to all middlewares
 	//...
 	app.use(function(req, res, next) {
@@ -44,8 +44,7 @@ MongoClient.connect(url, function (err, db) {
 		next(); //Need to say next() here or this is the end of request handling for the route.
 	});
 
-	//app.use('/', routes);
-	//app.use('/users', users);
+	//Set up routes, middleware and error handlers
 	app.use('/', index);
 	app.use('/about', about);
 	app.use('/tasks', tasks);
