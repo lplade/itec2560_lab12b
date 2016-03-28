@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* home page. Redirect to /tasks listing. */
 router.get('/', function(req, res, next) {
-  res.render('/tasks');
+  res.redirect('/tasks');
 });
 
 module.exports = router;
