@@ -11,13 +11,13 @@ block content
 			p No tasks.
 
 		each task, index in tasks
-			div.item#task._id
+			div.item(id=task._id)
 				//a done button, the task name, a delete button
 				.done_form
 					form(action='/tasks/#{task._id}', method='post')
 						input(type='hidden', value=task._id, name=_id)
 						input(type='hidden', value='true', name='completed')
-						input.done_button.task-done(type='submit', value='done')
+						input.done_button(type='submit', class='task-done', value='done')
 				.task_number
 					span.number=index+1
 				.task_name
@@ -28,5 +28,5 @@ block content
 		div.all_done
 			span#all_done_text Mark all as done...
 			form#all_done_form(action='tasks/alldone' method='post')
-				input(type='hidden', value='true', name='all done')
+				input(type='hidden', value='true', name='all_done')
 				input.button#all_done_button(type='submit', value='All done!')
