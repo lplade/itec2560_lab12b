@@ -4,3 +4,6 @@
 [submodule "basic-todo-express"]
 	path = basic-todo-express
 	url = git@github.com:minneapolis-edu/basic-todo-express.git
+[submodule "basic-todo-mongoose"]
+	path = basic-todo-mongoose
+	url = https://github.com/minneapolis-edu/basic-todo-mongoose
