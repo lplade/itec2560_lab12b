@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var MongoClient = require("mongodb").MongoClient;
+var mongoose = require("mongoose");
 var ObjectID = require("mongodb").ObjectID;
 const assert = require("assert");
 
@@ -29,13 +30,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 //DB connection string.
 var url = "mongodb://localhost:27017/todo";
 
+var db = mongoose.connect(url);
+
+mongoose.connection.on('error', function(err){
+	console.log('Error connecting to MongoDB via Mongoose ' + err)
+});
+
+mongoose.connection.once('open', function(){
+/*
+})
+
 MongoClient.connect(url, function (err, db) {
 	if (err) {
 		console.log("Error connecting to Mongo server: ", err);
 		assert(!err); //Crash application if error encountered
-	}
+	}*/
 	console.log("Established database connection ");
-	
+
 	//Export the DB object to all middlewares
 	//...
 	app.use(function(req, res, next) {
