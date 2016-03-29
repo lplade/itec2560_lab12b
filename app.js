@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var MongoClient = require("mongodb").MongoClient;
+//var MongoClient = require("mongodb").MongoClient;
 var mongoose = require("mongoose");
-var ObjectID = require("mongodb").ObjectID;
-const assert = require("assert");
+//var ObjectID = require("mongodb").ObjectID;
+//const assert = require("assert");
 
 var index = require('./routes/index');
 var tasks = require('./routes/tasks');
@@ -44,7 +44,7 @@ MongoClient.connect(url, function (err, db) {
 	if (err) {
 		console.log("Error connecting to Mongo server: ", err);
 		assert(!err); //Crash application if error encountered
-	}*/
+	}
 	console.log("Established database connection ");
 
 	//Export the DB object to all middlewares
@@ -53,8 +53,10 @@ MongoClient.connect(url, function (err, db) {
 		req.db = {};
 		req.db.tasks = db.collection('tasks');
 		next(); //Need to say next() here or this is the end of request handling for the route.
-	});
-
+	});*/
+	
+	console.log("Connected to MongoDB");
+	
 	//Set up routes, middleware and error handlers
 	app.use('/', index);
 	app.use('/about', about);

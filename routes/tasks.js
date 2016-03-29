@@ -1,5 +1,3 @@
-//typo was 'completed' vs 'complete'
-
 var express = require('express');
 var router = express.Router();
 //var ObjectID = require('mongodb').ObjectID;
@@ -25,7 +23,6 @@ router.get('/', function(req, res, next){
 		if (error) {
 			return next(error);
 		}
-
 		res.render('tasks', {title: "TODO", tasks: allTasks });
 	});
 });
@@ -54,7 +51,7 @@ router.post('/addtask', function(req, res, next){
 		if (err) {
 			return next(err);
 		} else {
-			res.redircect('/tasks');
+			res.redirect('/tasks');
 		}
 	});
 });
@@ -62,12 +59,13 @@ router.post('/addtask', function(req, res, next){
 /* Get all of the completed tasks */
 router.get('/completed', function(req, res, next){
 
-/*	req.db.tasks.find({completed:true}).toArray(function(error, tasklist){
-		if (error) {
+	/*	req.db.tasks.find({completed:true}).toArray(function(error, tasklist){
+		//if (error) {
 			return next(error);
 		}
 		res.render('tasks_completed', { title:'Completed', tasks: tasklist || [] })
 	});*/
+	
 	Task.find({completed:true}, function(error, tasklist){
 		if (error) {
 			return next(error);
@@ -77,33 +75,30 @@ router.get('/completed', function(req, res, next){
 });
 
 
-
-
-
-
-
-
 //**Set all tasks to complted, display empty tasklist */
 router.post('/alldone', function(req, res, next){
 
-/*	req.db.tasks.updateMany({completed: false }, {$set: { completed:true }}, function(error, count) {
-		if (error) {
-			console.log('error ' + error);
+//	req.db.tasks.updateMany({completed: false }, {$set: { completed:true }}, function(error, count) {
+		/* if (error) {
+		//	console.log('error ' + error);
 			return next(error);
 		}
 		res.redirect('/tasks');
 	});*/
 	Task.update({completed:false},{completed:true},{multi:true}, function(error, res){
 		if (error) {
+			console.log('error ' + error);
 			return next(error);
 		}
 		res.redirect('/tasks');
 	});
 });
 
-//This gets called for any routes with url parameters
-//...
-
+/**This gets called for any routes with url parameters e.g. DELETE and POST tasks/taskID
+ This is really helpful because it provides a task object (_id, name, completed) as req.task
+ Order matters here. This is beneath the other routes, but above routes which need the parameter.
+ Otherwise it would be called for /tasks/completed which we don't want to do '/completed' isn't an id.
+ */
 router.param('task_id', function(req, res, next, taskId){
 	console.log("params being extracted from URL for " + taskId );
 	//Request task matching this ID, limit to one result.
@@ -135,12 +130,12 @@ router.post('/:task_id', function(req, res, next){
 		return next(new Error('body missing parameter?'))
 	}
 
-/*	req.db.tasks.updateOne({_id: ObjectID(req.task._id)}, {$set :{completed:true}}, function(error, result){
-		if (error) {
-			return next(error);
-		}
-		res.redirect('/tasks')
-	});*/
+//	req.db.tasks.updateOne({_id: ObjectID(req.task._id)}, {$set :{completed:true}}, function(error, result){
+//		if (error) {
+//			return next(error);
+//		}
+//		res.redirect('/tasks')
+//	});
 	Task.findByIDAndUpdate(req.task._id,{completed:true}, function(error, result){
 		if (error) {
 			return next(error);
