@@ -3,7 +3,7 @@ extends layout
 block content
 
 	div.addtask
-		form#addtask_form(action='tasks/addtask', method='post')
+		form#addtask_form(action='/tasks/addtask', method='post')
 				input#addtask_input(type='text', name='task_name', placeholder='add new task' required)
 				input#addtask_button(type='submit', value='add')
 
@@ -27,6 +27,6 @@ block content
 
 		div.all_done
 			span#all_done_text Mark all as done...
-			form#all_done_form(action='tasks/alldone' method='post')
+			form#all_done_form(action='/tasks/alldone' method='post')
 				input(type='hidden', value='true', name='all_done')
 				input.button#all_done_button(type='submit', value='All done!')
