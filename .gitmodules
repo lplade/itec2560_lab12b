@@ -7,3 +7,6 @@
 [submodule "basic-todo-mongoose"]
 	path = basic-todo-mongoose
 	url = https://github.com/minneapolis-edu/basic-todo-mongoose
+[submodule "basic-todo-mongoose-with-users"]
+	path = basic-todo-mongoose-with-users
+	url = https://github.com/minneapolis-edu/basic-todo-mongoose-with-users
