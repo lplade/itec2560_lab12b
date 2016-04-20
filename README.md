@@ -1,4 +1,7 @@
-# itec2560_lab10
+Lab 12 part 2
+=============
+
 Todo app
 
-I cant typo no goodf
+Forked from lab 10
+Now with authentication
