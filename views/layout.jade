@@ -8,8 +8,14 @@ html
 		script(src='/javascripts/deleteTask.js')
 
 	body
-		h2 TO DO APP
+
+	h2 #{username} TO DO APP
 
 		include navigation
 
 		block content
+
+if username
+	ul.nav_list
+		li.nav_link
+			a(href="/logout") Log out
